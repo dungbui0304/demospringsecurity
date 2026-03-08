@@ -23,8 +23,20 @@ public class JwtService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
             .subject(userName)
             .issuedAt(now)
-            .expiresAt(now.plusSeconds(3600))
+            .expiresAt(now.plusSeconds(10))
             .claim("scopes", roles)
+            .build();
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims))
+            .getTokenValue();
+    }
+
+    public String generateRefreshToken(String userName) {
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+            .subject(userName)
+            .issuedAt(now)
+            .expiresAt(now.plusSeconds(240)) // 7 ngày
+            .claim("type", "refresh")
             .build();
         return jwtEncoder.encode(JwtEncoderParameters.from(claims))
             .getTokenValue();
