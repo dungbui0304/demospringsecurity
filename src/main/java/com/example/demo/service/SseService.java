@@ -42,4 +42,29 @@ public class SseService {
             emitters.remove(userId);
         }
     }
+
+    public void startFakeServerPush() {
+        int count = 1;
+
+        while (true) {
+            try {
+                Thread.sleep(3000);
+                int currentCount = count;
+
+                emitters.keySet().forEach(userId -> {
+                    if (currentCount == 10) {
+                        send(userId, "DONE");
+                    } else {
+                        send(userId, "Message #" + currentCount + " from server");
+                    }
+                });
+                if (currentCount == 10) {
+                    break;
+                }
+                count++;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -1,7 +1,5 @@
 package com.example.demo.scheduler;
 
-import java.util.Random;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +15,6 @@ public class RandomDataScheduler {
     @Scheduled(fixedRate = 3000)
     public void sendRandom() {
 
-        int random = new Random().nextInt(100);
-        sseService.send("dungbt5", "Random: " + random);
+        sseService.startFakeServerPush();
     }
 }
